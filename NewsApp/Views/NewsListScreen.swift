@@ -2,42 +2,41 @@
 //  NewsListScreen.swift
 //  NewsApp
 //
-//  Created by Mohammad Azam on 6/30/21.
+//  Created by Nidhishree Nayak on 15/07/25.
 //
 
 import SwiftUI
 
 struct NewsListScreen: View {
     
+    let newsSource: NewsSourceViewModel
     @StateObject private var newsArticleListViewModel = NewsArticleListViewModel()
     
     var body: some View {
         
         NavigationView {
-        
-        List(newsArticleListViewModel.newsArticles, id: \.id) { newsArticle in
-            NavigationLink(destination: Text("Foo")) {
+            
+            List(newsArticleListViewModel.newsArticles, id: \.id) { newsArticle in
                 NewsArticleCell(newsArticle: newsArticle)
             }
-        }
-        .listStyle(.plain)
-        .onAppear {
-            newsArticleListViewModel.getNews()
-        }
-        .navigationTitle("Top Headlines")
+            .listStyle(.plain)
+            .task({
+                await newsArticleListViewModel.getNewsBy(sourceId: newsSource.id)
+            })
+            .navigationTitle(newsSource.name)
         }
     }
 }
 
 struct NewsListScreen_Previews: PreviewProvider {
     static var previews: some View {
-        NewsListScreen()
+        NewsListScreen(newsSource: NewsSourceViewModel.default)
     }
 }
 
 struct NewsArticleCell: View {
     
-    let newsArticle: NewsArticleViewModel 
+    let newsArticle: NewsArticleViewModel
     
     var body: some View {
         HStack(alignment: .top) {

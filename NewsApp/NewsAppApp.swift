@@ -2,7 +2,7 @@
 //  NewsAppApp.swift
 //  NewsApp
 //
-//  Created by Mohammad Azam on 6/30/21.
+//  Created by Nidhishree Nayak on 15/07/25.
 //
 
 import SwiftUI
@@ -11,7 +11,7 @@ import SwiftUI
 struct NewsAppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NewsSourceListScreen()
         }
     }
 }
